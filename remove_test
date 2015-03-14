@@ -10,8 +10,6 @@ if [ $DELETE_NUM -gt $TEST_NUM ] ; then
 else
     for i in `seq $DELETE_NUM $TEST_NUM`;
     do
-        echo $i
-        echo test/inputs/`expr $i + 1`
         mv test/inputs/`expr $i + 1` test/inputs/$i
         mv test/expected_outputs/`expr $i + 1` test/expected_outputs/$i
     done
