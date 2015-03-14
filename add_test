@@ -9,4 +9,4 @@ TEST_NUM=$(expr $(cat test/test_number) + 1)
 touch test/inputs/$TEST_NUM test/expected_outputs/$TEST_NUM
 echo $TEST_NUM > test/test_number
 
-vim -O test/inputs/$TEST_NUM test/expected_outputs/$TEST_NUM
+./edit_test $TEST_NUM
