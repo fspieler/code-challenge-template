@@ -10,6 +10,8 @@ using namespace std;
 string run_test_case(){
 
     // FEED ME CODE
+    
+    return "";
 }
 
 int main(int argc, char* argv[]){
@@ -28,5 +30,6 @@ int main(int argc, char* argv[]){
     for (int test_case = start; test_case < start+num_test_cases; test_case++){
         cout << "Case #" << test_case << ": " << run_test_case() << endl;
     }
+
     return 0;
 }
