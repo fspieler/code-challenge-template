@@ -1,0 +1,51 @@
+#!/bin/bash
+
+if [ ! -d test ] ; then
+    echo "No test dir! try ./add_test.sh"
+    exit 1;
+fi
+
+FAILURES=""
+TEST_NUM=`cat test/test_number`
+MAJOR_SEPARATOR="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+MINOR_SEPARATOR="--------------------------------"
+
+if [ $TEST_NUM -lt 1 ] ; then
+    echo No tests found...
+    exit 0
+fi
+
+if [ ! -d test/outputs ] ; then
+    mkdir -p test/outputs
+fi
+
+for i in `seq 1 $TEST_NUM`; do
+    echo $MAJOR_SEPARATOR
+    echo Running test $i
+    ./a.out < test/inputs/$i > test/outputs/$i 2> .debug.out
+    echo Input:
+    echo $MINOR_SEPARATOR
+    cat test/inputs/$i
+    echo $MINOR_SEPARATOR
+    echo "Expected output  |  actual output" :
+    echo $MINOR_SEPARATOR
+    pr -m -t test/expected_outputs/$i test/outputs/$i
+    echo $MINOR_SEPARATOR
+    echo Debug output: 
+    echo $MINOR_SEPARATOR
+    cat .debug.out
+    echo $MINOR_SEPARATOR
+    diff -Z test/expected_outputs/$i test/outputs/$i > /dev/null 2>&1
+    if [ $? -eq 0 ] ; then
+        echo Test $i passed!
+    else
+        echo Test $i failed :\(
+        FAILURES="$FAILURES $i"
+    fi
+done
+
+if [ -z "$FAILURES" ] ; then
+    echo "All $TEST_NUM tests passed!"
+else
+    echo "Failed tests:$FAILURES"
+fi

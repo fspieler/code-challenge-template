@@ -1,0 +1,25 @@
+#!/bin/bash
+
+INPUT_FILE=$1
+OUTPUT_FILE=$2
+rm -rf temp
+mkdir -p temp
+cp $INPUT_FILE temp
+cd temp
+
+tail -n +2 $INPUT_FILE > input
+split -a 4 --numeric-suffixes=1 -l 2 input ""
+
+FILES=0*
+
+if [ -f output ]; then
+    rm output
+fi
+
+for f in $FILES; do
+    (./../a.out $f < $f >> $f-output) &
+done
+
+wait
+
+cat *-output > ../$OUTPUT_FILE
