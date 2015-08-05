@@ -46,6 +46,8 @@ done
 
 if [ -z "$FAILURES" ] ; then
     echo "All $TEST_NUM tests passed!"
+    cat main.cpp | xclip -selection clipboard
+    echo "main.cpp copied to clipboard"
 else
     echo "Failed tests:$FAILURES"
 fi
