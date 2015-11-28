@@ -3,6 +3,7 @@
 #include <ccct_debug.h>
 #include <string>
 #include <map>
+#include <vector>
 
 class Trie
 {
@@ -12,18 +13,21 @@ private:
   int _count;
   std::string _str;
   bool _is_empty_word;
+  bool _is_full_word;
   TMap _map;
-  Trie(std::string&&, TMap&&);
+  Trie(TMap&&);
 public:
   Trie() :
     _count(),
     _str(),
     _is_empty_word(false),
+    _is_full_word(false),
     _map()
   { }
   ~Trie(){}
   friend std::ostream& operator<<(std::ostream&, const Trie&);
   Trie& add_string(const std::string&);
+  void next_letters(std::vector<char>&, const std::string&) const;
   std::ostream& print
     (
      std::ostream& os,
