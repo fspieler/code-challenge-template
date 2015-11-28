@@ -36,10 +36,13 @@ template<typename T>
 std::ostream& operator<< (std::ostream& os, const std::vector<T>& v)
 {
   os << "[";
+  bool flag = false;
   for(auto e : v) {
+    flag = true;
     os << e << ", ";
   }
-  os << "\b\b]";
+
+  os << (flag ? "\b\b]" : " ]");
   return os;
 }
 
