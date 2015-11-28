@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <map>
+#include <utility>
 
 namespace ccct_debug {
 
@@ -55,6 +56,13 @@ std::ostream& operator<< (std::ostream& os, const std::map<T,U>& m)
     os << "(" << kv.first << ", " << kv.second << "), "; 
   }
   os << "\b\b}";
+  return os;
+}
+
+template<typename T,typename U>
+std::ostream& operator<< (std::ostream& os, const std::pair<T,U>& p)
+{
+  os << "(" << std::get<0>(p) << ", " << std::get<1>(p) << ")"; 
   return os;
 }
 

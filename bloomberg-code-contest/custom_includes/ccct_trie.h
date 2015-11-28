@@ -11,10 +11,14 @@ public:
   typedef std::map<char,Trie> TMap;
 private:
   int _count;
+  int _empty_count;
+  int _full_count;
   std::string _str;
   bool _is_empty_word;
   bool _is_full_word;
   TMap _map;
+  const Trie* _navigate_to_trie(const Trie& t, const std::string& str, int& index);
+  void _autocomplete_helper(std::vector<std::pair<std::string, int> >& wordCounts, const std::string& prefix, const Trie& t);
   Trie(TMap&&);
 public:
   Trie() :
@@ -28,10 +32,11 @@ public:
   friend std::ostream& operator<<(std::ostream&, const Trie&);
   Trie& add_string(const std::string&);
   void next_letters(std::vector<char>&, const std::string&) const;
+  void autocomplete_words(std::vector<std::string>&, const std::string&, int limit=5) const;
   std::ostream& print
     (
      std::ostream& os,
-     bool indent=false,
+     bool indent=true,
      int level=0
     ) const;
 };
