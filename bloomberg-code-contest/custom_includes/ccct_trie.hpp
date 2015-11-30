@@ -3,46 +3,54 @@
 
 Trie::Trie(TMap&& map) :
   _count(1),
+  _empty_count(0),
+  _full_count(0),
   _str(),
+  _is_empty_word(false),
+  _is_full_word(false),
   _map(map)
 {}
 
+namespace trie_helper {
+
+Trie& move_suffix_to_intermediate_node(Trie& t, int index)
+{
+  int length = t._str.size() - index;
+  if(length <= 0) return t;
+  auto new_str = t._str.substr(index, length);
+  auto new_map = std::move(t._map);
+  t._str = t._str.substr(0,index);
+  Trie& new_trie = t._map[new_str[0]];
+  if(new_str.size() > 1)
+  {
+    auto substr = new_str.substr(1,new_str.size()-1);
+    DEBUG(substr);
+    new_trie.add_string(std::move(substr));
+  }
+  else if(new_str.size() == 1 && t._is_full_word)
+  {
+    new_trie._empty_count = t._full_count;
+    new_trie._is_empty_word=true;
+  }
+  new_trie._count = t._count - 1;
+  new_trie._map = std::move(new_map);
+  return new_trie;
+}
+
+} //namespace trie_helper
+
 Trie& Trie::add_string(const std::string& s)
 {
-  auto move_suffix_to_intermediate_node =
-    [](Trie& t, int index) -> Trie&
-  {
-    int length = t._str.size() - index;
-    if(length < 0)
-    {
-      return t;
-    }
-    auto new_str = t._str.substr(index, length);
-    auto new_map = std::move(t._map);
-    t._str = t._str.substr(0,index);
-    Trie& new_trie = t._map[new_str[0]];
-    new_trie.add_string(new_str.substr(1,new_str.size()-1));
-    new_trie._map = std::move(new_map);
-    new_trie._count = t._count - 1;
-    if(t._is_full_word)
-    {
-      new_trie._is_full_word = true;
-      new_trie._full_count = t._full_count;
-      t._is_full_word = false;
-      t._full_count = 0;
-    }
-    return t;
-  };
-
   this->_count++;
-  if(!s.size()){
+  if(!s.size())
+  {
     _is_empty_word=true;
     _empty_count++;
     return *this;
   }
   if(!_str.size())
   {
-    if(_map.size())
+    if(_map.size() > 0)
     {
       _map[s[0]].add_string(s.substr(1,s.size()-1));
     }
@@ -70,33 +78,44 @@ Trie& Trie::add_string(const std::string& s)
     else break;
   }
   
-  if(s.size() == _str.size())
+  if(s.size() == _str.size() && common_index == s.size()-1)
   {
     _full_count++;
     return *this;
   }
 
-
   if(common_index >= 0)
   {
     int start= common_index+1;
     int length1 = _str.size() - start;
-    if(length1>0)
+    if(length1>=0) //original str longer than common
     {
-      move_suffix_to_intermediate_node(*this,start);
+      Trie& new_trie  = trie_helper::move_suffix_to_intermediate_node(*this,start);
+      if(length1>1)
+      {
+        new_trie._is_full_word = _is_full_word;
+        new_trie._full_count = _full_count;
+      }
+      _is_full_word = false;
+      _full_count = 0;
     }
     int length2 = s.size() - start;
-    if(length2>0)
+    if(length2 > 0) //new str longer than common
     {
-      length2--;
-      std::string new_entry = s.substr(start+1, length2);
-      _map[s[start]].add_string(new_entry);
+      Trie& new_entry = _map[s[start]];
+      std::string new_str = s.substr(start+1, length2-1);
+      new_entry.add_string(new_str);
+    }
+    else
+    {
+      _is_full_word = true;
+      _full_count++;
     }
     _str = _str.substr(0,start);
   }
   else
   {
-    move_suffix_to_intermediate_node(*this,0);
+    trie_helper::move_suffix_to_intermediate_node(*this,0);
     _map[s[0]].add_string(s.substr(1,s.size()-1));
   }
 
@@ -130,28 +149,26 @@ void Trie::next_letters(std::vector<char>& vc, const std::string& s) const
   }
 }
 
-const Trie* Trie::_navigate_to_trie(const Trie& t, const std::string& str, int& index)
+const Trie* Trie::_navigate_to_trie(const std::string& str, int& index) const
 {
   if(!str.size())
   {
-    return &t;
+    return this;
   }
-  for(size_t i = 0; i < t._str.size(); ++i)
-  {
+  for(size_t i = 0; i < _str.size(); ++i) {
     if(i >= str.size())
     {
-      return &t;
+      return this;
     }
-    if(str[i] != t._str[i]) return NULL;
+    if(str[i] != _str[i]) return NULL;
   }
-  auto it = t._map.find(str[t._str.size()]);
-  if(it == t._map.end()) return NULL;
-  index += t._str.size() + 1;
-  return _navigate_to_trie(t._map.at(str[t._str.size()]),str.substr(t._str.size()+1,str.size()-t._str.size()-1), index);
+  auto it = _map.find(str[_str.size()]);
+  if(it == _map.end()) return NULL;
+  index += _str.size() + 1;
+  return _map.at(str[_str.size()])._navigate_to_trie(str.substr(_str.size()+1,str.size()-_str.size()-1), index);
 }
 
-
-void Trie::_autocomplete_helper(std::vector<std::pair<std::string, int> >& wordCounts, const std::string& prefix, const Trie& t)
+void Trie::_autocomplete_helper(std::vector<std::pair<std::string, int> >& wordCounts, const std::string& prefix, const Trie& t) const
 {
   if(t._is_empty_word)
   {
@@ -173,7 +190,7 @@ void Trie::autocomplete_words(std::vector<std::string>& v, const std::string& s,
 {
   std::vector<std::pair<std::string, int> > pair_vec;
   int index = 0;
-  const Trie* t = _navigate_to_trie(*this, s, index);
+  const Trie* t = _navigate_to_trie(s, index);
   if(!t) return;
   _autocomplete_helper(pair_vec, s.substr(0,index+1), *t);
   std::sort(pair_vec.begin(), pair_vec.end(), [](auto a, auto b) -> bool
