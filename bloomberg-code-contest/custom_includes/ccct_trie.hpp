@@ -162,6 +162,7 @@ const Trie* Trie::_navigate_to_trie(const std::string& str, int& index) const
     }
     if(str[i] != _str[i]) return NULL;
   }
+  if(str.size() == _str.size()) return this;
   auto it = _map.find(str[_str.size()]);
   if(it == _map.end()) return NULL;
   index += _str.size() + 1;
