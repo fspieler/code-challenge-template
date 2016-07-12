@@ -1,0 +1,6 @@
+#!/bin/bash
+    
+    cat challenge_includes.h > genfile
+    sed 's/#include <challenge_includes.h>//' main.cpp >> genfile
+    cat genfile | xclip -selection clipboard
+    rm genfile

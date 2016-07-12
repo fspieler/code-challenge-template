@@ -3,7 +3,7 @@ test: a.out
 	@./.run_tests
 
 a.out: main.cpp
-	g++ -O2 -W -Wall -Wextra -Wpedantic -std=c++11 main.cpp
+	g++ -O2 -I. -W -Wall -Wextra -std=c++14 main.cpp
 
 .PHONY: clean
 clean: 

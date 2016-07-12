@@ -22,10 +22,10 @@ void display(T first, Ts... rest)
 
 } // namespace fred_debug
 
-#define DEBUG(x) std::cerr << "line " << __LINE__  << " | " << #x << " -> " << x << std::endl;
+#define DEBUG(x) std::cerr << "line " << __LINE__  << " " << __FILE__ << " | " << #x << " -> " << x << std::endl;
 
 #define DEBUGF(f, ... )                                   \
-  std::cerr << "line " <<__LINE__ << " | "                 \
+  std::cerr << "line " <<__LINE__ << " " << __FILE__ " | "                 \
             << #f << "(" << #__VA_ARGS__ << ") -> "       \
             << #f << "(";                                 \
   ccct_debug::display(__VA_ARGS__);                       \

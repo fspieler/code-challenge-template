@@ -1,4 +1,5 @@
 #include <ccct_debug.h>
+#define private public
 #include <ccct_trie.h>
 #include <gtest/gtest.h>
 
