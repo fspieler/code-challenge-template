@@ -1,5 +1,5 @@
-#include <ccct_debug.h>
-#include <ccct_trie.h>
+#include <debug.h>
+#include <trie.h>
 #include <gtest/gtest.h>
 
 void test_next_letters(const Trie& t, const std::string& s)

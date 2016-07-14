@@ -1,6 +1,6 @@
-#ifndef CCCT_TRIE_INCLUDES_GUARD
-#define CCCT_TRIE_INCLUDES_GUARD
-#include <ccct_debug.h>
+#ifndef TRIE_INCLUDES_GUARD
+#define TRIE_INCLUDES_GUARD
+#include <debug.h>
 #include <string>
 #include <map>
 #include <vector>
@@ -53,6 +53,6 @@ std::ostream& operator<<(std::ostream& os, const Trie& t)
 {
   return t.print(os);
 }
-#include <ccct_trie.hpp>
+#include <trie.hpp>
 
-#endif // CCCT_TRIE_INCLUDES_GUARD
+#endif // TRIE_INCLUDES_GUARD

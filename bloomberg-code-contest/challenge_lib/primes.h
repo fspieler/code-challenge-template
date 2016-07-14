@@ -1,7 +1,7 @@
-#ifndef CCCT_PRIMES_INCLUDES_GUARD
-#define CCCT_PRIMES_INCLUDES_GUARD
+#ifndef PRIMES_INCLUDES_GUARD
+#define PRIMES_INCLUDES_GUARD
 
-#include <ccct_debug.h>
+#include <debug.h>
 #include <vector>
 #include <algorithm>
 
@@ -64,4 +64,4 @@ bool isPrimeMemoized(unsigned long long n)
   return true;
 }
 
-#endif //CCCT_PRIMES_INCLUDES_GUARD
+#endif //PRIMES_INCLUDES_GUARD

@@ -1,11 +1,11 @@
-#ifndef CCCT_DEBUG_INCLUDE_GUARD
-#define CCCT_DEBUG_INCLUDE_GUARD
+#ifndef DEBUG_INCLUDE_GUARD
+#define DEBUG_INCLUDE_GUARD
 
 #include <iostream>
 #include <map>
 #include <utility>
 
-namespace ccct_debug {
+namespace debug {
 
 template<typename T>
 void display(T last)
@@ -20,7 +20,7 @@ void display(T first, Ts... rest)
   display(rest...);
 }
 
-} // namespace fred_debug
+} // namespace debug
 
 #define DEBUG(x) std::cerr << "line " << __LINE__  << " " << __FILE__ << " | " << #x << " -> " << x << std::endl;
 
@@ -66,4 +66,4 @@ std::ostream& operator<< (std::ostream& os, const std::pair<T,U>& p)
   return os;
 }
 
-#endif //CCCT_DEBUG_INCLUDE_GUARD
+#endif //DEBUG_INCLUDE_GUARD

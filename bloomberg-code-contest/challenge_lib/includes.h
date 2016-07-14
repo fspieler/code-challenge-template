@@ -1,8 +1,8 @@
 #ifndef CHALLENGE_INCLUDES_INCLUDES_GUARDS
 #define CHALLENGE_INCLUDES_INCLUDES_GUARDS
 
-#include <ccct_debug.h>
-#include <ccct_primes.h>
+#include <debug.h>
+#include <primes.h>
 
 //define quick for-loop macros
 #define range(x,n) for(x = 0; x<n; x++)

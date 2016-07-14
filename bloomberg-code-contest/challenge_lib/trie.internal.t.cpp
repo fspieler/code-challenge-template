@@ -1,13 +1,13 @@
-#include <ccct_debug.h>
+#include <debug.h>
 #define private public
-#include <ccct_trie.h>
+#include <trie.h>
 #include <gtest/gtest.h>
 
 #include <algorithm>
 
 namespace test {
 
-TEST(ccct_trie_add_string,add_to_empty_node)
+TEST(trie_add_string,add_to_empty_node)
 {
   Trie t;
   std::string s = "teststring";
@@ -20,7 +20,7 @@ TEST(ccct_trie_add_string,add_to_empty_node)
   ASSERT_EQ(0, t._map.size());
 }
 
-TEST(ccct_trie_add_string,add_to_empty_node_2)
+TEST(trie_add_string,add_to_empty_node_2)
 {
   Trie t;
   std::string s = "teststring";
@@ -34,7 +34,7 @@ TEST(ccct_trie_add_string,add_to_empty_node_2)
   ASSERT_EQ(0, t._map.size());
 }
 
-TEST(ccct_trie_add_string,adding_sub_string_creates_two_full_nodes)
+TEST(trie_add_string,adding_sub_string_creates_two_full_nodes)
 {
   Trie t;
   t.add_string("abcd");
@@ -53,7 +53,7 @@ TEST(ccct_trie_add_string,adding_sub_string_creates_two_full_nodes)
   ASSERT_FALSE(t2._is_empty_word);
 }
 
-TEST(ccct_trie_add_string,adding_sub_string_creates_two_full_nodes_two)
+TEST(trie_add_string,adding_sub_string_creates_two_full_nodes_two)
 {
   Trie t;
   t.add_string("ab");

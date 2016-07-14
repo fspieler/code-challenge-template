@@ -1,13 +1,12 @@
-#include <ccct_debug.h>
-#define private public
-#include <ccct_trie.h>
+#include <debug.h>
+#include <trie.h>
 #include <gtest/gtest.h>
 
 #include <algorithm>
 
 namespace test {
 
-TEST(ccct_trie_move_suffix_to_intermediate_node,normal_behavior)
+TEST(trie_move_suffix_to_intermediate_node,normal_behavior)
 {
   Trie t;
   t.add_string("apple");
@@ -15,7 +14,7 @@ TEST(ccct_trie_move_suffix_to_intermediate_node,normal_behavior)
   trie_helper::move_suffix_to_intermediate_node(t,0);
 }
 
-TEST(ccct_trie_next_letters,when_single_word_is_input_nextletters_contains_single_next_letter)
+TEST(trie_next_letters,when_single_word_is_input_nextletters_contains_single_next_letter)
 {
   Trie t;
   t.add_string("alphabet");
@@ -25,7 +24,7 @@ TEST(ccct_trie_next_letters,when_single_word_is_input_nextletters_contains_singl
   EXPECT_EQ('a',nl[0]);
 }
 
-TEST(ccct_trie_next_letters,when_query_hits_common_prefix_single_next_letter_found)
+TEST(trie_next_letters,when_query_hits_common_prefix_single_next_letter_found)
 {
   Trie t;
   t.add_string("alphabet");
@@ -36,7 +35,7 @@ TEST(ccct_trie_next_letters,when_query_hits_common_prefix_single_next_letter_fou
   EXPECT_EQ('a',nl[0]);
 }
 
-TEST(ccct_trie_next_letters,when_trie_forks_twice_both_letters_are_found)
+TEST(trie_next_letters,when_trie_forks_twice_both_letters_are_found)
 {
   Trie t;
   DEBUG(t);
@@ -54,7 +53,7 @@ TEST(ccct_trie_next_letters,when_trie_forks_twice_both_letters_are_found)
   EXPECT_NE(nl.end(), it) << "d not found.";
 }
 
-TEST(ccct_trie_next_letters,querying_after_a_fork_returns_correct_letter)
+TEST(trie_next_letters,querying_after_a_fork_returns_correct_letter)
 {
   Trie t;
   t.add_string("alphabet");
@@ -69,7 +68,7 @@ TEST(ccct_trie_next_letters,querying_after_a_fork_returns_correct_letter)
   EXPECT_EQ('o',nl[0]);
 }
 
-TEST(ccct_trie_next_letters,categori_bug)
+TEST(trie_next_letters,categori_bug)
 {
   Trie t;
   t.add_string("categorical");
