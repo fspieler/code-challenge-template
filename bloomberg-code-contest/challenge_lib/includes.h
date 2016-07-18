@@ -1,26 +1,27 @@
 #ifndef CHALLENGE_INCLUDES_INCLUDES_GUARDS
 #define CHALLENGE_INCLUDES_INCLUDES_GUARDS
-
-#include <debug.h>
-#include <primes.h>
+/*
+ * These headers have been prepared by Fred Spieler for use
+ * in coding contests. They are available for download at:
+ *
+ * https://github.com/fspieler/cpp-code-challenge-template
+ *
+ * and are subject to whatever license appears there.
+ */
 
 //define quick for-loop macros
 #define range(x,n) for(x = 0; x<n; x++)
 #define ranged(x,n) for(int x = 0; x<n; x++)
 
-//define types
-#define ll long long
-
 #include <vector>
 #include <cmath>
+#include <set>
+#include <map>
+#include <deque>
 #include <algorithm>
 
-template<typename T>
-T gcd(T a, T b)
-{
-    while(b) b ^= a ^= b ^= a %= b;
-    return a;
-}
-
+#include <types.h>
+#include <debug.h>
+#include <trie.h>
 
 #endif //CHALLENGE_INCLUDES_INCLUDES_GUARDS
