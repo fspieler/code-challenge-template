@@ -2,57 +2,76 @@
 #define TRIE_INCLUDES_GUARD
 #include <debug.h>
 #include <string>
+#include <sstream>
 #include <map>
 #include <vector>
 
-class Trie;
-namespace trie_helper {
-  Trie& move_suffix_to_intermediate_node(Trie& t, int index);
-}
-
 class Trie
 {
-public:
-  typedef std::map<char,Trie> TMap;
-private:
+  std::map<char,Trie> _map;
+  bool _isWord;
   size_t _count;
-  size_t _empty_count;
-  size_t _full_count;
-  std::string _str;
-  bool _is_empty_word;
-  bool _is_full_word;
-  TMap _map;
-  void _autocomplete_helper(std::vector<std::pair<std::string, int> >& wordCounts, const std::string& prefix, const Trie& t) const;
-  Trie(TMap&&);
-  friend Trie& trie_helper::move_suffix_to_intermediate_node(Trie& t, int index);
 public:
-  const Trie* _navigate_to_trie(const std::string& str, int& index) const;
   Trie() :
-    _count(0),
-    _empty_count(0),
-    _full_count(0),
-    _str(),
-    _is_empty_word(false),
-    _is_full_word(false),
-    _map()
-  { }
-  ~Trie(){}
-  friend std::ostream& operator<<(std::ostream&, const Trie&);
-  Trie& add_string(const std::string&);
-  void next_letters(std::vector<char>&, const std::string&) const;
-  void autocomplete_words(std::vector<std::string>&, const std::string&, int limit=5) const;
-  std::ostream& print
-    (
-     std::ostream& os,
-     bool indent=true,
-     int level=0
-    ) const;
+    _isWord(false),
+    _count(0)
+  {}
+  void addWord(const std::string& str)
+  {
+    _count++;
+    if(str.size() == 0)
+    {
+      _isWord = true;
+      return;
+    }
+    _map[str[0]].addWord(str.substr(1,str.size()-1));
+  }
+private:
+  void completionHelper(std::vector<std::string>& ret, const std::string& prefix)
+  {
+    if(_isWord)
+    {
+      ret.push_back(prefix);
+    }
+    for(auto p : _map)
+    {
+      std::get<1>(p).completionHelper(ret, prefix + std::get<0>(p));
+    }
+  }
+public:
+  std::vector<std::string> findCompletions(const std::string& prefix)
+  {
+    std::vector<std::string> ret;
+    auto currentNode = this;
+    for(size_t i = 0; i < prefix.size(); ++i)
+    {
+      currentNode = &currentNode->_map[prefix[i]];
+    }
+    currentNode->completionHelper(ret, prefix);
+    return ret;
+  }
+
+  void print(size_t indentation=0)
+  {
+    std::ostringstream oss;
+    size_t tempIndentation = indentation;
+    while(tempIndentation-->0)
+    {
+      oss << "\t";
+    }
+    std::string indent = oss.str();
+    std::cout << indent << "{" << std::endl;
+    if(_isWord)
+    {
+      std::cout << indent << "full word" << std::endl;
+    }
+    for(auto p : _map)
+    {
+      std::cout << indent << std::get<0>(p) << ":" << std::endl;
+      std::get<1>(p).print(indentation+1);
+    }
+    std::cout << indent << "}" << std::endl;
+  }
+
 };
-
-std::ostream& operator<<(std::ostream& os, const Trie& t)
-{
-  return t.print(os);
-}
-#include <trie.hpp>
-
 #endif // TRIE_INCLUDES_GUARD
