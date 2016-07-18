@@ -1,6 +1,17 @@
 #!/bin/bash
-    
-    cat challenge_includes.h > genfile
-    sed 's/#include <challenge_includes.h>//' main.cpp >> genfile
-    cat genfile | xclip -selection clipboard
-    rm genfile
+
+headers="includes types debug trie"
+
+if [[ -f main_with_headers.cpp ]] ; then
+    rm main_with_headers.cpp
+fi
+
+for header in $headers; do
+    cat challenge_lib/$header.h >> main_with_headers.cpp
+done
+
+cat main.cpp >> main_with_headers.cpp
+
+for header in $headers; do
+    sed -i 's/#include <'$header'.h>//' main_with_headers.cpp
+done
