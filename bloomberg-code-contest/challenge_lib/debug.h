@@ -4,6 +4,8 @@
 #include <iostream>
 #include <map>
 #include <utility>
+#include <memory>
+#include <set>
 
 namespace debug {
 
@@ -28,7 +30,7 @@ void display(T first, Ts... rest)
   std::cerr << "line " <<__LINE__ << " " << __FILE__ " | "                 \
             << #f << "(" << #__VA_ARGS__ << ") -> "       \
             << #f << "(";                                 \
-  ccct_debug::display(__VA_ARGS__);                       \
+  debug::display(__VA_ARGS__);                       \
   std::cerr << ") = " << f(__VA_ARGS__) << std::endl;
 
 #include <vector>
@@ -47,6 +49,19 @@ std::ostream& operator<< (std::ostream& os, const std::vector<T>& v)
   return os;
 }
 
+template<typename T>
+std::ostream& operator<< (std::ostream& os, const std::set<T>& v)
+{
+  os << "[";
+  bool flag = false;
+  for(auto e : v) {
+    flag = true;
+    os << e << ", ";
+  }
+
+  os << (flag ? "\b\b]" : " ]");
+  return os;
+}
 template<typename T,typename U>
 std::ostream& operator<< (std::ostream& os, const std::map<T,U>& m)
 {
@@ -63,6 +78,21 @@ template<typename T,typename U>
 std::ostream& operator<< (std::ostream& os, const std::pair<T,U>& p)
 {
   os << "(" << std::get<0>(p) << ", " << std::get<1>(p) << ")"; 
+  return os;
+}
+
+template<typename T>
+std::ostream& operator<< (std::ostream& os, const std::unique_ptr<T>& up)
+{
+
+  os << "UP(" << "@" << up.get() << ": " << *up << ")"; 
+  return os;
+}
+
+template<typename T>
+std::ostream& operator<< (std::ostream& os, const std::shared_ptr<T>& up)
+{
+  os << "UP(" << "@" << up.get() << ": " << *up << ")"; 
   return os;
 }
 
