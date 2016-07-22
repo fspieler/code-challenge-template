@@ -1,2 +1,2 @@
 #!/bin/bash
-vim -O test/inputs/$1 test/expected_outputs/$1
+vim -O "+set paste" test/inputs/$1 test/expected_outputs/$1
