@@ -3,3 +3,5 @@ test-suite
 test-*
 *.swp
 *.swo
+*.pyc
+main_with_headers.cpp
