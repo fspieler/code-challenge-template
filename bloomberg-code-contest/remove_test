@@ -1,6 +1,11 @@
 #!/bin/bash
 
+if [[ $# == 0 ]] ; then
+    echo >&2 "remove_test must be called with the number(s) of tests to be removed"
+    exit
+fi
 DELETE_NUM=$1
+
 TEST_NUM=$(expr $(cat test/test_number) - 1)
 echo Deleting test $DELETE_NUM
 echo $TEST_NUM tests left...
