@@ -103,7 +103,7 @@ U foldleft(
 template<typename T>
 T sumall(const std::vector<T>& input)
 {
-    return foldleft<T,T>(input,[](int e, int sum)
+    return foldleft<T,T>(input,[](T e, T sum)
     {
         return e + sum;
     }, 0);
@@ -112,7 +112,7 @@ T sumall(const std::vector<T>& input)
 template<typename T>
 T productall(const std::vector<T>& input)
 {
-    return foldleft<T,T>(input,[](int e, int product)
+    return foldleft<T,T>(input,[](T e, T product)
     {
         return e * product;
     }, 1);
