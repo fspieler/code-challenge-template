@@ -1,6 +1,6 @@
 #!/bin/bash
 
-headers="includes types debug trie"
+headers=`cat challenge_lib/headers_list`
 
 if [[ -f main_with_headers.cpp ]] ; then
     rm main_with_headers.cpp
