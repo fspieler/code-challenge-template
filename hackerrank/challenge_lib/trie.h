@@ -39,6 +39,20 @@ private:
     }
   }
 public:
+  size_t count(const std::string& prefix){
+    DEBUG(prefix);
+    auto currentNode = this;
+    for(size_t i = 0; i < prefix.size(); ++i)
+    {
+      auto c = prefix[i];
+      if (currentNode->_map.find(c) == currentNode->_map.end())
+      {
+        return 0;
+      }
+      currentNode = &currentNode->_map[prefix[i]];
+    }
+    return currentNode->_count;
+  }
   std::vector<std::string> findCompletions(const std::string& prefix)
   {
     std::vector<std::string> ret;
@@ -60,18 +74,20 @@ public:
       oss << "\t";
     }
     std::string indent = oss.str();
-    std::cout << indent << "{" << std::endl;
+    std::cerr << indent << "{" << std::endl;
     if(_isWord)
     {
-      std::cout << indent << "full word" << std::endl;
+      std::cerr << indent << "full word" << std::endl;
     }
+    std::cerr << indent << "count: " << _count << std::endl;
     for(auto p : _map)
     {
-      std::cout << indent << std::get<0>(p) << ":" << std::endl;
+      std::cerr << indent << std::get<0>(p) << ":" << std::endl;
       std::get<1>(p).print(indentation+1);
     }
-    std::cout << indent << "}" << std::endl;
+    std::cerr << indent << "}" << std::endl;
   }
 
 };
+
 #endif // TRIE_INCLUDES_GUARD
