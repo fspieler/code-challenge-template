@@ -15,3 +15,5 @@ cat main.cpp >> main_with_headers.cpp
 for header in $headers; do
     sed -i 's/#include <'$header'.h>//' main_with_headers.cpp
 done
+
+cat main_with_headers.cpp | xclip -sel clip
