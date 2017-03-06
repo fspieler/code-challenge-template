@@ -12,6 +12,8 @@
 #include <functional>
 
 typedef std::pair<size_t, size_t> Point;
+template<typename T, typename U>
+class Graph;
 
 template<typename T=char>
 struct GridElementWrapper
@@ -109,7 +111,7 @@ public:
   {
     return (*this)[std::get<0>(p)][std::get<1>(p)];
   }
-  Graph<GridElementWrapper<T> > toGraph(
+  Graph<GridElementWrapper<T>, int> toGraph(
       std::map<Point, ull>& gridMap
     )
   {
@@ -119,20 +121,20 @@ public:
       [] (Point,Point,Grid<T>&) {return true;}
     );
   }
-  Graph<GridElementWrapper<T> > toGraph(
+  Graph<GridElementWrapper<T>, int> toGraph(
       std::map<Point, ull>& gridMap,
       std::function<bool(Point,Grid<T>&)> predicate
   )
   {
     return this->toGraph(gridMap,predicate, [] (Point, Point, Grid<T>&) {return true;});
   }
-  Graph<GridElementWrapper<T> > toGraph(
+  Graph<GridElementWrapper<T>, int> toGraph(
       std::map<Point, ull>& gridMap,
       std::function<bool(Point,Grid<T>&)> predicate,
       std::function<bool(Point,Point,Grid<T>&)> edgePredicate
   )
   {
-    Graph<GridElementWrapper<T> > g;
+    Graph<GridElementWrapper<T>, int> g;
     for(size_t j = 0; j < _ydim; ++j)
     {
       for(size_t i = 0; i < _xdim; ++i)
