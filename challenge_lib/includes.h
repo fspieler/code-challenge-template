@@ -21,6 +21,7 @@
 #include <algorithm>
 
 #include <types.h>
+#include <strings.h>
 #include <debug.h>
 #include <trie.h>
 #include <primes.h>
