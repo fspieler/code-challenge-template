@@ -5,3 +5,4 @@ test-*
 *.swo
 *.pyc
 main_with_headers.cpp
+soln.zip
