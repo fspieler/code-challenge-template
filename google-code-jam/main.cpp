@@ -4,6 +4,7 @@
 #include <vector> 
 #include <algorithm> 
 
+#include <includes.h>
 
 using namespace std;
 
@@ -11,7 +12,8 @@ string run_test_case()
 {
 
     // FEED ME CODE
-    
+    Grid<int> g(2,3,-1);
+    cin >> g;
     return "";
 }
 
