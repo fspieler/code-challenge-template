@@ -22,7 +22,7 @@ fi
 for i in `seq 1 $TEST_NUM`; do
     echo $MAJOR_SEPARATOR
     echo Running test $i
-    ./a.out < test/inputs/$i > test/outputs/$i
+    ./a.out < test/inputs/$i > test/outputs/$i 2> .debug.out
     echo Input:
     echo $MINOR_SEPARATOR
     cat test/inputs/$i
@@ -30,6 +30,10 @@ for i in `seq 1 $TEST_NUM`; do
     echo "Expected output  |  actual output" :
     echo $MINOR_SEPARATOR
     pr -m -t test/expected_outputs/$i test/outputs/$i
+    echo $MINOR_SEPARATOR
+    echo Debug output: 
+    echo $MINOR_SEPARATOR
+    cat .debug.out
     echo $MINOR_SEPARATOR
     diff -Z test/expected_outputs/$i test/outputs/$i > /dev/null 2>&1
     if [ $? -eq 0 ] ; then
@@ -42,6 +46,9 @@ done
 
 if [ -z "$FAILURES" ] ; then
     echo "All $TEST_NUM tests passed!"
+    ./zip_src
+    echo "source zipped to soln.zip"
 else
     echo "Failed tests:$FAILURES"
 fi
+

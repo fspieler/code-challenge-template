@@ -1,0 +1,6 @@
+#!/bin/bash
+
+dir=${PWD##*/}
+cd ..
+zip -R soln.zip  $dir/* $dir/challenge_lib/*
+mv soln.zip $dir/soln.zip
