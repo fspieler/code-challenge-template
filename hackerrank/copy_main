@@ -1,6 +1,6 @@
 #!/bin/bash
 
-headers=`cat challenge_lib/headers_list`
+headers=`cat challenge_lib/non_test_headers_list challenge_lib/headers_list`
 
 if [[ -f main_with_headers.cpp ]] ; then
     rm main_with_headers.cpp
@@ -15,5 +15,6 @@ cat main.cpp >> main_with_headers.cpp
 for header in $headers; do
     sed -i 's/#include <'$header'.h>//' main_with_headers.cpp
 done
+sed -i 's/#include <includes.h>//' main_with_headers.cpp
 
 cat main_with_headers.cpp | xclip -sel clip
