@@ -23,5 +23,8 @@
 #include <types.h>
 #include <debug.h>
 #include <trie.h>
+#include <primes.h>
+#include <graph.h>
+#include <grid.h>
 
 #endif //CHALLENGE_INCLUDES_INCLUDES_GUARDS
