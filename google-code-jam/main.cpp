@@ -12,8 +12,6 @@ string run_test_case()
 {
 
     // FEED ME CODE
-    Grid<int> g(2,3,-1);
-    cin >> g;
     return "";
 }
 
@@ -22,7 +20,6 @@ int main(int argc, char* argv[])
 
     int num_test_cases;
     int start;
-    cerr << argc << endl;
     if(argc == 3)
     {
         num_test_cases = atoi(argv[1]);
